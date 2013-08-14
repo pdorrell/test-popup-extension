@@ -6,14 +6,20 @@ function openPopupWindow(popupHtmlUrl) {
   chrome.tabs.createWindow({url: popupHtmlUrl, type: "popup"});
 }
 
+var messageHandler = {
+  openPopupWindow: function(request) {
+    console.log("openPopupWindow ...");
+    chrome.windows.create({ url: request.url, type: "popup" });
+    return {message: "Popup window created"};
+  }    
+}
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log("runtime message " + inspect(request));
   console.log(" sender = " + sender);
-  if (request.type == "openPopupWindow") {
-    console.log("Creating popup window ...");
-    var popupWindow = chrome.windows.create({ url: request.url, type: "popup" });
-    console.log("popupWindow = " + popupWindow);
-    sendResponse({message: "Popup window created"});
+  var handler = messageHandler[request.type];
+  if (handler) {
+    sendResponse(handler(request));
   }
 });
 
