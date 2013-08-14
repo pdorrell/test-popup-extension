@@ -7,14 +7,18 @@ function openPopupWindow(popupHtmlUrl) {
 }
 
 var messageHandler = {
-  openPopupWindow: function(request) {
+  openPopupWindow: function(request, sendResponse) {
     console.log("openPopupWindow ...");
     chrome.windows.create({ url: request.url, type: "popup" });
-    return {message: "Popup window created"};
+    sendResponse({message: "Popup window created"});
   }, 
-  getTitle: function(request) {
+  getTitle: function(request, sendResponse) {
     console.log("getTitle ...");
-    return "This is a made up title";
+    sendResponse("Made up title from background");
+  /*  chrome.runtime.sendMessage({type: "getWindowTitle"}, 
+                               function(title) {
+                                 sendResponse(title);
+                               }); */
   }
 }
 
@@ -23,7 +27,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log(" sender = " + sender);
   var handler = messageHandler[request.type];
   if (handler) {
-    sendResponse(handler(request));
+    handler(request, sendResponse);
   }
 });
 
@@ -32,6 +36,9 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
   // No tabs or host permissions needed!
   console.log('Starting Test Popup');
+  
+  console.log("tab = " + tab);
+  console.log("tab.document = " + tab.document);
     
   chrome.tabs.executeScript({ file: 'create-popup.js'}); 
 });

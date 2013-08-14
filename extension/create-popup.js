@@ -4,6 +4,24 @@ function inspect(object) {
 
 var popupHtmlUrl = chrome.extension.getURL("popup.html");
 
+var messageHandler = {
+  getWindowTitle: function(request, sendResponse) {
+    console.log("getWindowTitle ...");
+    sendResponse("This is a made up title from the target tab");
+  }
+}
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  console.log("runtime message " + inspect(request));
+  console.log(" sender = " + sender);
+  var handler = messageHandler[request.type];
+  if (handler) {
+    handler(request, sendResponse);
+  }
+});
+
+
+
 function createPopup() {
 
   function windowOpen() {
