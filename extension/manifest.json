@@ -6,7 +6,7 @@
     "activeTab"
   ],
   "background": {
-    "scripts": ["load-create-popup.js"],
+    "scripts": ["background.js"],
     "persistent": false
   },  
   "browser_action": {
