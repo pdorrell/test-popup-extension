@@ -18,6 +18,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (handler) {
     handler(request, sendResponse);
   }
+  return true;
 });
 
 

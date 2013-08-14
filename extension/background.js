@@ -6,29 +6,36 @@ function openPopupWindow(popupHtmlUrl) {
   chrome.tabs.createWindow({url: popupHtmlUrl, type: "popup"});
 }
 
+var targetTab = null;
+
 var messageHandler = {
   openPopupWindow: function(request, sendResponse) {
     console.log("openPopupWindow ...");
+    targetTab = request.tab;
+    console.log("targetTab.id = " + targetTab.id);
     chrome.windows.create({ url: request.url, type: "popup" });
     sendResponse({message: "Popup window created"});
   }, 
   getTitle: function(request, sendResponse) {
     console.log("getTitle ...");
-    sendResponse("Made up title from background");
-  /*  chrome.runtime.sendMessage({type: "getWindowTitle"}, 
-                               function(title) {
-                                 sendResponse(title);
-                               }); */
+    chrome.tabs.sendMessage(targetTab.id, {type: "getWindowTitle"}, 
+                            function(title) {
+                              sendResponse(title);
+                            });
   }
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log("runtime message " + inspect(request));
   console.log(" sender = " + sender);
+  console.log(" sender.tab = " + sender.tab);
+  console.log(" sender.tab.id = " + sender.tab.id);
   var handler = messageHandler[request.type];
+  request.tab = sender.tab;
   if (handler) {
     handler(request, sendResponse);
   }
+  return true;
 });
 
 // Called when the user clicks on the browser action.
