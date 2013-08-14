@@ -10,6 +10,11 @@ var messageHandler = {
     var title = $("title").text();
     console.log("title from jquery = " + inspect(title));
     sendResponse(title);
+  }, 
+  setWindowTitle: function(request, sendResponse) {
+    console.log("setWindowTitle ...");
+    $("title").text(request.title);
+    sendResponse(true); // success message?
   }
 }
 

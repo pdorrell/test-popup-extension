@@ -20,7 +20,7 @@ var messageHandler = {
     console.log("getTitle ...");
     chrome.tabs.sendMessage(targetTab.id, {type: "getWindowTitle"}, 
                             function(title) {
-                              sendResponse(title);
+                              sendResponse({title: title, targetTabId: targetTab.id});
                             });
   }
 }
