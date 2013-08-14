@@ -11,7 +11,11 @@ var messageHandler = {
     console.log("openPopupWindow ...");
     chrome.windows.create({ url: request.url, type: "popup" });
     return {message: "Popup window created"};
-  }    
+  }, 
+  getTitle: function(request) {
+    console.log("getTitle ...");
+    return "This is a made up title";
+  }
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {

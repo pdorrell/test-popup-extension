@@ -16,6 +16,6 @@
     [
       "popup.html", 
       "jquery-1.10.2.js", 
-      "send-message-from-popup.js"
+      "initialise-popup.js"
     ]
 }
