@@ -7,7 +7,9 @@ var popupHtmlUrl = chrome.extension.getURL("popup.html");
 var messageHandler = {
   getWindowTitle: function(request, sendResponse) {
     console.log("getWindowTitle ...");
-    sendResponse("This is a made up title from the target tab");
+    var title = $("title").text();
+    console.log("title from jquery = " + inspect(title));
+    sendResponse(title);
   }
 }
 
