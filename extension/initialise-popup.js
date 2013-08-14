@@ -12,11 +12,14 @@ function initialise() {
   chrome.runtime.sendMessage({type: "getTitle"}, 
                                function(title) {
                                  console.log("getTitle result = " + inspect(title));
-                                 $(window).data("title", title);
-                                 $("#title").text(title);
+                                 $("#title").val(title);
                                });
 
   window.postMessage({greeting: "Hello World from popup"}, "*");
 }
 
-window.onload = initialise;
+$(document).ready(function(){
+  console.log("Document ready ...");
+  initialise();
+});
+
