@@ -48,5 +48,5 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   console.log("tab.document = " + tab.document);
     
   chrome.tabs.executeScript({ file: 'jquery-1.10.2.js'}); 
-  chrome.tabs.executeScript({ file: 'create-popup.js'}); 
+  chrome.tabs.executeScript({ file: 'initialise-target-tab.js'}); 
 });

@@ -6,6 +6,13 @@ function inspect(object) {
 
 var targetTabId = null;
 
+function updateTargetTabTitle() {
+  chrome.tabs.sendMessage(targetTabId, {type: "setWindowTitle", title: $("#title").val()}, 
+                          function response(response) {
+                            console.log("updateTargetTabTitle, response = " + inspect(response));
+                          });
+}
+
 function initialise() {
   console.log("sendTheMessage ...");
   console.log("window = " + window);
@@ -19,8 +26,14 @@ function initialise() {
                                  $("#title").val(result.title);
                                });
   
+  $("#title").on("keypress", function(event, ui) {
+      if (event.which == 13) {
+        updateTargetTabTitle();
+      }
+  });
+
   $("#updateTitle").click(function() {
-    chrome.tabs.sendMessage(targetTabId, {type: "setWindowTitle", title: $("#title").val()});
+        updateTargetTabTitle();
   });
 
   window.postMessage({greeting: "Hello World from popup"}, "*");
