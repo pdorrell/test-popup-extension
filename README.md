@@ -13,7 +13,7 @@ Installation
 
 To install it, do the following:
 
-* Check out this repository
+* Check out this repository.
 * In **Google Chrome** or **Chromium**, go to the **Extensions** page (under **Tools**).
 * Select **"Developer mode"**.
 * Click the **"Load unpacked extension ..."** button.
