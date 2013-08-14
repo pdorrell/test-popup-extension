@@ -1,5 +1,3 @@
-console.log("Hello from call-style-adjuster-popup-callback.js");
-
 function inspect(object) {
   return JSON.stringify(object);
 }
@@ -8,16 +6,12 @@ var targetTabId = null;
 
 function updateTargetTabTitle() {
   chrome.tabs.sendMessage(targetTabId, {type: "setWindowTitle", title: $("#title").val()}, 
-                          function response(response) {
+                          function(response) {
                             console.log("updateTargetTabTitle, response = " + inspect(response));
                           });
 }
 
 function initialise() {
-  console.log("sendTheMessage ...");
-  console.log("window = " + window);
-  console.log("window.testData = " + inspect(window.testData));
-  
   chrome.runtime.sendMessage({type: "getTitle"}, 
                                function(result) {
                                  console.log("getTitle result = " + inspect(result));
@@ -35,8 +29,8 @@ function initialise() {
   $("#updateTitle").click(function() {
         updateTargetTabTitle();
   });
-
-  window.postMessage({greeting: "Hello World from popup"}, "*");
+  
+  $("#title").focus();
 }
 
 $(document).ready(function(){
