@@ -12,13 +12,15 @@ function updateTargetTabTitle() {
 }
 
 function initialise() {
-  chrome.runtime.sendMessage({type: "getTitle"}, 
-                               function(result) {
-                                 console.log("getTitle result = " + inspect(result));
-                                 targetTabId = result.targetTabId;
-                                 $("#targetTabId").text(targetTabId);
-                                 $("#title").val(result.title);
-                               });
+  targetTabId = parseInt(window.location.search.substring(1));
+  console.log("targetTabId = " + inspect(targetTabId));
+  $("#targetTabId").text(targetTabId);
+  chrome.tabs.sendMessage(targetTabId,
+                          {type: "getTitle"}, 
+                          function(result) {
+                            console.log("getTitle result = " + inspect(result));
+                            $("#title").val(result.title);
+                          });
   
   $("#title").on("keypress", function(event, ui) {
       if (event.which == 13) {

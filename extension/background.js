@@ -2,23 +2,15 @@ function inspect(object) {
   return JSON.stringify(object);
 }
 
-var targetTab = null;
+var popupHtmlUrl = chrome.extension.getURL("popup.html");
 
 var messageHandler = {
   openPopupWindow: function(request, sendResponse) {
     console.log("openPopupWindow ...");
-    targetTab = request.tab;
-    console.log("targetTab.id = " + targetTab.id);
-    chrome.windows.create({ url: request.url, type: "popup", 
+    var targetTab = request.tab;
+    chrome.windows.create({ url: popupHtmlUrl + "?" + targetTab.id, type: "popup", 
                             top: 300, left: 300, width: 500, height: 400 });
     sendResponse({message: "Popup window created"});
-  }, 
-  getTitle: function(request, sendResponse) {
-    console.log("getTitle ...");
-    chrome.tabs.sendMessage(targetTab.id, {type: "getWindowTitle"}, 
-                            function(title) {
-                              sendResponse({title: title, targetTabId: targetTab.id});
-                            });
   }
 }
 

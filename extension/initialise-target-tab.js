@@ -2,11 +2,9 @@ function inspect(object) {
   return JSON.stringify(object);
 }
 
-var popupHtmlUrl = chrome.extension.getURL("popup.html");
-
 var messageHandler = {
-  getWindowTitle: function(request, sendResponse) {
-    console.log("getWindowTitle ...");
+  getTitle: function(request, sendResponse) {
+    console.log("getTitle ...");
     var title = $("title").text();
     console.log("title from jquery = " + inspect(title));
     sendResponse(title);
@@ -28,7 +26,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 function createPopupWindowViaChromeRuntime() {
-  chrome.runtime.sendMessage({type: "openPopupWindow", url: popupHtmlUrl}, 
+  chrome.runtime.sendMessage({type: "openPopupWindow"}, 
                              function(response) {
                                console.log("chromeWindowsCreate, response = " + inspect(response));
                              });
