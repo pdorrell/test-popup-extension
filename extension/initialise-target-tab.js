@@ -2,9 +2,7 @@ function inspect(object) {
   return JSON.stringify(object);
 }
 
-function TitledWindow(window, $) {
-  this.window = window;
-  this.$ = $;
+function TitledWindow() {
 }
 
 TitledWindow.prototype = {
@@ -12,19 +10,19 @@ TitledWindow.prototype = {
   
   getPageDetails: function(request, sendResponse) {
     console.log("getTitle ...");
-    var title = this.$("title").text();
+    var title = $("title").text();
     console.log("title from jquery = " + inspect(title));
-    sendResponse({title: title, url: this.window.location.href});
+    sendResponse({title: title, url: window.location.href});
   }, 
   
   setWindowTitle: function(request, sendResponse) {
     console.log("setWindowTitle ...");
-    this.$("title").text(request.title);
-    sendResponse({title: this.$("title").text()}); // return updated title
+    $("title").text(request.title);
+    sendResponse({title: $("title").text()}); // return updated title
   }
 };
 
-var titledWindow = new TitledWindow(window, $);
+var titledWindow = new TitledWindow();
 
 function handleTitleWindowRequests() {
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
