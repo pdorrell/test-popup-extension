@@ -8,28 +8,28 @@ function TitledWindow() {
 TitledWindow.prototype = {
   public: {getPageDetails: true, setWindowTitle: true}, 
   
-  getPageDetails: function(request, sendResponse) {
+  getPageDetails: function(request, returnValue) {
     console.log("getTitle ...");
     var title = $("title").text();
     console.log("title from jquery = " + inspect(title));
-    sendResponse({title: title, url: window.location.href});
+    returnValue({title: title, url: window.location.href});
   }, 
   
-  setWindowTitle: function(request, sendResponse) {
+  setWindowTitle: function(request, returnValue) {
     console.log("setWindowTitle ...");
     $("title").text(request.title);
-    sendResponse({title: $("title").text()}); // return updated title
+    returnValue({title: $("title").text()}); // return updated title
   }
 };
 
 var titledWindow = new TitledWindow();
 
 function handleTitleWindowRequests() {
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener(function(request, sender, handleResult) {
     console.log("runtime message " + inspect(request));
     var requestType = request.type;
     if(titledWindow.public[requestType]) {
-      titledWindow[requestType](request, sendResponse);
+      titledWindow[requestType](request, handleResult);
       return true;
     }
   });
