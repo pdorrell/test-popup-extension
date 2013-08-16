@@ -8,6 +8,8 @@ function TitledWindow(window, $) {
 }
 
 TitledWindow.prototype = {
+  public: {getPageDetails: true, setWindowTitle: true}, 
+  
   getPageDetails: function(request, sendResponse) {
     console.log("getTitle ...");
     var title = this.$("title").text();
@@ -24,23 +26,14 @@ TitledWindow.prototype = {
 
 var titledWindow = new TitledWindow(window, $);
 
-var titledWindowMessageHandler = {
-  getPageDetails: function(request, sendResponse) {
-    titledWindow.getPageDetails(request, sendResponse);
-  }, 
-  setWindowTitle: function(request, sendResponse) {
-    titledWindow.setWindowTitle(request, sendResponse);
-  }
-}
-
 function handleTitleWindowRequests() {
   chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("runtime message " + inspect(request));
-    var handler = titledWindowMessageHandler[request.type];
-    if (handler) {
-      handler(request, sendResponse);
+    var requestType = request.type;
+    if(titledWindow.public[requestType]) {
+      titledWindow[requestType](request, sendResponse);
+      return true;
     }
-    return true;
   });
 }
 
