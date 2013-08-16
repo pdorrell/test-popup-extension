@@ -36,7 +36,7 @@ function initialiseTitleWindowFromOpener() {
   console.log("initialiseTitleWindowFromOpener, window.opener = " + window.opener);
   titledWindow = window.opener.titledWindow;
   console.log(" titledWindow = " + titledWindow);
-  $("#targetTabId").hide();
+  $("#target-description").append($("<p/>").text("This popup window was directly opened from the parent window."));
 }
 
 function initialiseTitleWindowProxy() {
@@ -44,7 +44,10 @@ function initialiseTitleWindowProxy() {
   var targetTabId = parseInt(urlQueryString.substring(1));
   console.log(" targetTabId = " + inspect(targetTabId));
   titledWindow = new TitledWindowProxy(targetTabId);
-  $("#targetTabId").text(targetTabId);
+  $("#target-description").append(
+    $("<p/>").text("This popup window was opened by the Chrome Extension"), 
+    $("<p/>").append($("<b/>").text("Target tab ID:"), " ", 
+                     $("<span/>".text(targetTabId))));
 }
 
 function initialise() {
