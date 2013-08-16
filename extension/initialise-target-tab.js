@@ -1,3 +1,4 @@
+console.log("LOADING initialise-target-tab.js, window.location.href = " + window.location.href);
 function inspect(object) {
   return JSON.stringify(object);
 }
@@ -8,7 +9,8 @@ function TitledWindow() {
 TitledWindow.prototype = {
   public: {getPageDetails: true, setWindowTitle: true}, 
   
-  getPageDetails: function(request, returnValue) {
+  getPageDetails: function(returnValue) {
+    console.log("getPageDetails, returnValue = " + returnValue);
     console.log("getTitle ...");
     var title = $("title").text();
     console.log("title from jquery = " + inspect(title));
@@ -19,6 +21,10 @@ TitledWindow.prototype = {
     console.log("setWindowTitle ...");
     $("title").text(request.title);
     returnValue({title: $("title").text()}); // return updated title
+  }, 
+  
+  toString: function() {
+    return "[TitledWindow " + window.location.href + "]";
   }
 };
 
@@ -62,3 +68,4 @@ function initialise() {
 }
 
 initialise();
+console.log("Finished LOADING initialise-target-tab.js, window.location.href = " + window.location.href);

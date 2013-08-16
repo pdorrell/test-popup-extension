@@ -32,12 +32,30 @@ function updateTargetTabTitle() {
                               });
 }
 
-function initialise() {
-  var targetTabId = parseInt(window.location.search.substring(1));
+function initialiseTitleWindowFromOpener() {
+  console.log("initialiseTitleWindowFromOpener, window.opener = " + window.opener);
+  titledWindow = window.opener.titledWindow;
+  console.log("titledWindow = " + titledWindow);
+  $("#targetTabId").hide();
+}
+
+function initialiseTitleWindowProxy() {
+  console.log("initialiseTitleWindowProxy ...");
+  var targetTabId = parseInt(urlQueryString.substring(1));
+  console.log(" targetTabId = " + inspect(targetTabId));
   titledWindow = new TitledWindowProxy(targetTabId);
-  
-  console.log("targetTabId = " + inspect(targetTabId));
   $("#targetTabId").text(targetTabId);
+}
+
+function initialise() {
+  var urlQueryString = window.location.search;
+  console.log("urlQueryString = " + inspect(urlQueryString));
+  if (urlQueryString == "") {
+    initialiseTitleWindowFromOpener();
+  }
+  else {
+    initialiseTitleWindowProxy();
+  }
   
   titledWindow.getPageDetails(function(result) {
     console.log("getPageDetails result = " + inspect(result));
