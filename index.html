@@ -10,7 +10,48 @@
 <body>
 <h1>Test Page for Test Chrome Popup Extension</h1>
 
-<p>This page loads the popup directly &ndash; not through the Chrome extension.</p>
+<p><i>Philipi Dorrell, 17 August, 2013</i></p>
+
+<p><b><a href="https://github.com/pdorrell/test-popup-extension">test-popup-extension</a></b>
+is a template for a Chrome browser extension where a popup windows acts on the contents
+of the target tab.
+</p>
+
+<p>This test page loads the popup directly &ndash; not through the Chrome extension.</p>
+
+<p>The <b>test-popup-extension</b> project source code is configured so that the extension's 
+functionality can be exercised easily in two different modes:
+<ol>
+ <li>Load this test page, in which case the popup window accesses the test page's content
+directly via <b>window.opener</b>.</li>
+ <li>Install the extension from the project's <b>extension</b> sub-directory, in which case
+the popup window is created by clicking on the extension's icon when visiting any web page.</li>
+</ol></p>
+
+<p>What makes popup windows in Chrome extensions slightly difficult is that the Chrome
+browser does <i>not</i> allow access to <b>window.opener</b>. Instead, all communication between
+windows must be via <b>chrome.runtime.onMessage</b> and <b>chrome.tabs.sendMessage</b>.</p>
+
+<p><b>test-popup-extension</b> deals with the differences between normal popup windows
+and extension popup windows by defining functionality on the content tab in 
+the form of an object which can be executed either "locally", or "remotely" via the Chrome 
+extension messaging API.</p>
+
+<p>For details of how this is done, see the source code. A brief summary is:</p>
+
+<ul>
+ <li>Define a target object representing actions to be performed on the content (target) tab
+(in this case <b>TitledWindow</b>).</li>
+ <li>Define all "public" methods on the target object with two parameters: a <b>request</b> object,
+and a <b>result handler</b> (in this case, the <b>getPageDetails</b> and <b>setWindowTitle</b> methods). 
+The request object wraps actual parameter values, and the result handler
+is used to process the result of the method (i.e. instead of using <b>return</b>).</li>
+ <li>In the popup window's Javascript, define a <b>proxy</b> for the target object which has
+the same public method signatures, but which implements the methods by sending messages to the 
+content tab (in this case <b>TitledWindowProxy</b>).</li>
+ <li>In the content tab's Javascript, define a handler for messages, which passes them on to
+the local target object, and then passes the results back to the result handler of the message handler.</li>
+</ul>
 
 </body>
 </html>
