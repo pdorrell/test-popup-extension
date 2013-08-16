@@ -9,13 +9,13 @@ function TitledWindowProxy(tabId) {
 }
 
 TitledWindowProxy.prototype = {
-  getPageDetails: function(handleResult) {
+  getPageDetails: function(request, handleResult) {
     chrome.tabs.sendMessage(this.tabId, 
                             {type: "getPageDetails"}, 
                             function(result) { handleResult(result); });
   }, 
-  setWindowTitle: function(title, handleResult) {
-    chrome.tabs.sendMessage(this.tabId, {type: "setWindowTitle", title: title}, 
+  setWindowTitle: function(request, handleResult) {
+    chrome.tabs.sendMessage(this.tabId, {type: "setWindowTitle", title: request.title}, 
                             function(result) { handleResult(result); });
   }
 };
@@ -25,7 +25,7 @@ function updateTitle(targetTitle) {
 }  
 
 function updateTargetTabTitle() {
-  titledWindow.setWindowTitle($("#title").val(), 
+  titledWindow.setWindowTitle({title: $("#title").val()}, 
                               function(result) {
                                 updateTitle(result.title);
                                 console.log("updateTargetTabTitle, result = " + inspect(result));
@@ -35,7 +35,7 @@ function updateTargetTabTitle() {
 function initialiseTitleWindowFromOpener() {
   console.log("initialiseTitleWindowFromOpener, window.opener = " + window.opener);
   titledWindow = window.opener.titledWindow;
-  console.log("titledWindow = " + titledWindow);
+  console.log(" titledWindow = " + titledWindow);
   $("#targetTabId").hide();
 }
 
@@ -49,7 +49,7 @@ function initialiseTitleWindowProxy() {
 
 function initialise() {
   var urlQueryString = window.location.search;
-  console.log("urlQueryString = " + inspect(urlQueryString));
+  console.log("initialise, urlQueryString = " + inspect(urlQueryString));
   if (urlQueryString == "") {
     initialiseTitleWindowFromOpener();
   }
@@ -57,12 +57,13 @@ function initialise() {
     initialiseTitleWindowProxy();
   }
   
-  titledWindow.getPageDetails(function(result) {
-    console.log("getPageDetails result = " + inspect(result));
-    $("#title").val(result.title);
-    $("#url").text(result.url);
-    updateTitle(result.title);
-  });
+  titledWindow.getPageDetails({}, 
+                              function(result) {
+                                console.log("getPageDetails result = " + inspect(result));
+                                $("#title").val(result.title);
+                                $("#url").text(result.url);
+                                updateTitle(result.title);
+                              });
   
   $("#title").on("keypress", function(event, ui) {
       if (event.which == 13) {

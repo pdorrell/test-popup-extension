@@ -1,4 +1,3 @@
-console.log("LOADING initialise-target-tab.js, window.location.href = " + window.location.href);
 function inspect(object) {
   return JSON.stringify(object);
 }
@@ -9,9 +8,8 @@ function TitledWindow() {
 TitledWindow.prototype = {
   public: {getPageDetails: true, setWindowTitle: true}, 
   
-  getPageDetails: function(returnValue) {
-    console.log("getPageDetails, returnValue = " + returnValue);
-    console.log("getTitle ...");
+  getPageDetails: function(request, returnValue) {
+    console.log("getPageDetails ...");
     var title = $("title").text();
     console.log("title from jquery = " + inspect(title));
     returnValue({title: title, url: window.location.href});
@@ -68,4 +66,3 @@ function initialise() {
 }
 
 initialise();
-console.log("Finished LOADING initialise-target-tab.js, window.location.href = " + window.location.href);
