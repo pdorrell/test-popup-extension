@@ -11,7 +11,7 @@ var messageHandler = {
       var url = popupHtmlUrl + "?" + sender.tab.id;
       console.log("Opening popup window with URL " + url);
       chrome.windows.create({ url: url, type: "popup", 
-                              top: 300, left: 300, width: 500, height: 400 });
+                              top: 300, left: 300, width: 600, height: 450 });
       sendResponse({message: "Popup window created"});
     }
   }
