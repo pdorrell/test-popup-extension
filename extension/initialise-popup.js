@@ -4,9 +4,14 @@ function inspect(object) {
 
 var targetTabId = null;
 
+function updateTitle(targetTitle) {
+  $("title").text("Test Popup: " + targetTitle);
+}  
+
 function updateTargetTabTitle() {
   chrome.tabs.sendMessage(targetTabId, {type: "setWindowTitle", title: $("#title").val()}, 
                           function(response) {
+                            updateTitle(response.title);
                             console.log("updateTargetTabTitle, response = " + inspect(response));
                           });
 }
@@ -16,10 +21,12 @@ function initialise() {
   console.log("targetTabId = " + inspect(targetTabId));
   $("#targetTabId").text(targetTabId);
   chrome.tabs.sendMessage(targetTabId,
-                          {type: "getTitle"}, 
+                          {type: "getPageDetails"}, 
                           function(result) {
-                            console.log("getTitle result = " + inspect(result));
+                            console.log("getPageDetails result = " + inspect(result));
                             $("#title").val(result.title);
+                            $("#url").text(result.url);
+                            updateTitle(result.title);
                           });
   
   $("#title").on("keypress", function(event, ui) {

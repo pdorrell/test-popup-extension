@@ -5,12 +5,15 @@ function inspect(object) {
 var popupHtmlUrl = chrome.extension.getURL("popup.html");
 
 var messageHandler = {
-  openPopupWindow: function(request, sendResponse) {
+  openPopupWindow: function(request, sender, sendResponse) {
     console.log("openPopupWindow ...");
-    var targetTab = request.tab;
-    chrome.windows.create({ url: popupHtmlUrl + "?" + targetTab.id, type: "popup", 
-                            top: 300, left: 300, width: 500, height: 400 });
-    sendResponse({message: "Popup window created"});
+    if(sender && sender.tab) {
+      var url = popupHtmlUrl + "?" + sender.tab.id;
+      console.log("Opening popup window with URL " + url);
+      chrome.windows.create({ url: url, type: "popup", 
+                              top: 300, left: 300, width: 500, height: 400 });
+      sendResponse({message: "Popup window created"});
+    }
   }
 }
 
@@ -20,9 +23,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log(" sender.tab.id = " + sender.tab.id);
   }
   var handler = messageHandler[request.type];
-  request.tab = sender.tab;
   if (handler) {
-    handler(request, sendResponse);
+    handler(request, sender, sendResponse);
   }
   return true;
 });

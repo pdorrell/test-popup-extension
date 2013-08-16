@@ -3,11 +3,11 @@ function inspect(object) {
 }
 
 var messageHandler = {
-  getTitle: function(request, sendResponse) {
+  getPageDetails: function(request, sendResponse) {
     console.log("getTitle ...");
     var title = $("title").text();
     console.log("title from jquery = " + inspect(title));
-    sendResponse(title);
+    sendResponse({title: title, url: window.location.href});
   }, 
   setWindowTitle: function(request, sendResponse) {
     console.log("setWindowTitle ...");
