@@ -24,7 +24,19 @@ Run it without installation
 ---------------------------
 
 The project is configured so that the functionality of the extension can be run directly
-inside a web page &ndash; open the file **index.html** directly in a browser (enable popups
+inside a test web page &ndash; open the file **index.html** directly in a browser (enable popups
 if necessary), and the popup window will appear and let you change the title of that page.
 
-You can also access a copy of the same page at http://pdorrell.github.io/test-popup-extension/.
+This is an easier to run code during development, since your edit-compile-run cycle is:
+
+* Edit and save code
+* Refresh page in browser
+
+instead of:
+
+* Edit and save code
+* Refresh extension in browser
+* Refresh page in browser
+* Click on extension icon
+
+You can also access a copy of the same test web page at http://pdorrell.github.io/test-popup-extension/.
