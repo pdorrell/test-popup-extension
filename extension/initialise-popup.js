@@ -10,12 +10,13 @@ function TitledWindowProxy(tabId) {
 
 TitledWindowProxy.prototype = {
   getPageDetails: function(request, handleResult) {
-    chrome.tabs.sendMessage(this.tabId, 
-                            {type: "getPageDetails"}, 
+    request.$method = "getPageDetails";
+    chrome.tabs.sendMessage(this.tabId, request, 
                             function(result) { handleResult(result); });
   }, 
   setWindowTitle: function(request, handleResult) {
-    chrome.tabs.sendMessage(this.tabId, {type: "setWindowTitle", title: request.title}, 
+    request.$method = "setWindowTitle";
+    chrome.tabs.sendMessage(this.tabId, request, 
                             function(result) { handleResult(result); });
   }
 };

@@ -31,9 +31,9 @@ var titledWindow = new TitledWindow();
 function handleTitleWindowRequests() {
   chrome.runtime.onMessage.addListener(function(request, sender, handleResult) {
     console.log("runtime message " + inspect(request));
-    var requestType = request.type;
-    if(titledWindow.public[requestType]) {
-      titledWindow[requestType](request, handleResult);
+    var method = request.$method;
+    if(titledWindow.public[method]) {
+      titledWindow[method](request, handleResult);
       return true;
     }
   });
