@@ -36,7 +36,20 @@ redirects to <b>index.html?load</b>. (This is a useful option when
 the browser command line refuses to let you include characters like "?" in the URL argument.)</li>
 </ul>
 
-<p>
+<h3>Enabling Popups</h3>
+
+<p>If you click the button to create the popup, it gets created, no questions asked. Same thing
+when you click the browser action button for the installed browser extension. But if you
+load this page with the <b>?load</b> query string, then the popup is created via Javascript, something
+that web browsers do not enable by default (due to the potential for abuse from web pages that create
+a thousand popups each time you visit).</p>
+
+<p>During development of your own popup, you probably do want to see the popup as soon as possible
+each time you load the test page, i.e., no clicking on buttons, and no telling the browser "Allow popups from ..." etc.
+When developing against Chrome (or Chromium), which is the browser
+that is going to be running your extension, you can use the command line parameter 
+<b><a href="http://peter.sh/experiments/chromium-command-line-switches/#disable-popup-blocking">--disable-popup-blocking</a></b>
+to get confirmation-free opening of popup windows from your Javascript.</p>
 
 <h2>How to Install the Extension</h2>
 
