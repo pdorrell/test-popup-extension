@@ -46,7 +46,7 @@ function createPopupWindowViaChromeRuntime() {
                              });
 }
 
-function createPopupWindowDirectly() {
+function createTitleEditorWindow() {
   var popupWindow = window.open('extension/popup.html','test-popup',
                                 'width=500,height=400,top=300,left=300,menubar=0,' + 
                                 'status=0,scrollbars=0,location=0,toolbar=0,resizable=1');
@@ -58,10 +58,6 @@ function initialise() {
     console.log("Initialising target tab for chrome extension");
     handleTitleWindowRequests();
     createPopupWindowViaChromeRuntime();
-  }
-  else {
-    console.log("Initialising outside of chrome extension");
-    createPopupWindowDirectly();
   }
 }
 

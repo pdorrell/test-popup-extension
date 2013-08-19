@@ -1,0 +1,19 @@
+$headline_font_family: Arial,sans-serif;
+h1 {
+    font-family: $headline_font_family;
+    font-size: 2em;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    font-family: $headline_font_family;
+    font-size: 1.5em;
+    margin: 0;
+    padding: 0;
+    margin-top: 0.5em;
+}
+
+p {
+    margin: 0 0 0.5em 0;
+}

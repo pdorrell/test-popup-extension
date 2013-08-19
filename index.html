@@ -4,31 +4,50 @@
 <title>Test Page for Test Chrome Popup Extension</title>
 <script type="text/javascript" src="extension/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="extension/initialise-target-tab.js"></script>
-
+<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 
-<body>
+<body onload='if (window.location.search == "?load") createTitleEditorWindow();'>
+
 <h1>Test Page for Test Chrome Popup Extension</h1>
 
-<p><i>Philipi Dorrell, 17 August, 2013</i></p>
+<p><i>Philip Dorrell, 19 August, 2013</i></p>
+
+<h2>test-popup-extension</h2>
 
 <p><b><a href="https://github.com/pdorrell/test-popup-extension">test-popup-extension</a></b>
 is a template for a Chrome browser extension where a popup windows acts on the contents
 of the target tab.
 </p>
 
-<p>This test page loads the popup directly &ndash; not through the Chrome extension.</p>
+<p>This test page lets you load the popup directly, i.e. without having to install (or reload) 
+the Chrome extension.</p>
 
-<p>(To see the popup, will you will have to enable popups in your browser for this web page.)</p>
+<h2>How to Run the Extension Popup Window</h2>
 
-<p>The <b>test-popup-extension</b> project source code is configured so that the extension's 
-functionality can be exercised easily in two different modes:
-<ol>
- <li>Load this test page, in which case the popup window accesses the test page's content
-directly via <b>window.opener</b>.</li>
- <li>Install the extension from the project's <b>extension</b> sub-directory, in which case
-the popup window is created by clicking on the extension's icon when visiting any web page.</li>
-</ol></p>
+<p>There are three ways you can invoke the popup window to edit the title of this web page:</p>
+
+<ul>
+ <li>Click this button: <button onclick="createTitleEditorWindow();">Create Title Editor Window</button></li>
+ <li>Load this page with the <b>load</b> query, i.e.
+<a href="index.html?load"><b>index.html?load</b></a>.</li>
+ <li>Load the page <a href="index_load.html"><b>index_load.html</b></a>, which
+redirects to <b>index.html?load</b>. (This is a useful option when
+the browser command line refuses to let you include characters like "?" in the URL argument.)</li>
+</ul>
+
+<p>
+
+<h2>How to Install the Extension</h2>
+
+<p><b>Chrome</b> makes it very easy to install an extension during development &ndash; you
+go to the "Extensions" page in the browser (under the "Tools" menu), and tell it 
+to "Load unpacked extension ...".</p>
+
+<p>The <b>test-popup-extension</b> project has all the extension files in the <b>extension</b>
+subdirectory, so that's the directory you load the unpacked extension from.</p>
+
+<h2>How the Popup Window Performs Actions on the Target Tab</h2>
 
 <p>What makes popup windows in Chrome extensions slightly difficult is that the Chrome
 browser does <i>not</i> allow access to <b>window.opener</b>. Instead, all communication between
